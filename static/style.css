@@ -82,6 +82,39 @@ textarea {
     font-size: medium;
 }
 
+#output-giraffe {
+    border: 1px solid var(--primary-color);
+    display: flex;
+    justify-content: space-around;
+    min-height: 14vh;
+    margin: 1rem;
+    padding: 1rem;
+    /* font-family: monospace; */
+    text-align: center;
+    max-width: 90%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1rem 1rem 1rem 1rem;
+    /* border-top-right-radius: 1rem; */
+    /* border-bottom-left-radius: 1rem; */
+    font-size: medium;
+    background: #eee;
+}
+
+.giraffe-container {
+    max-width: 25%;
+}
+
+.giraffe-label {
+    color: #1D4ED8;
+    font-weight: bold;
+}
+
+.giraffe-value{
+    margin-top: 5px;
+}
+
 /* container */
 
 .container {
