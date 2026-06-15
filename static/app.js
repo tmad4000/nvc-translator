@@ -14,11 +14,19 @@ function urlfunc(url) {
     return url + "?" + "text=" + input_translate.value
 }
 
+// Lightweight GA4 event helper (safe no-op if gtag is blocked/missing)
+function track(name, params) {
+    try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {}
+}
+
 function callback() {
     // Show spinner
     loading.style.display = 'block';
     // Hide translate button
     translate.style.display = 'none';
+
+    var inputLen = (input_translate.value || '').length;
+    track('translate_click', { input_chars: inputLen });
 
     fetch(urlfunc(url), {
         method: 'GET',
@@ -28,7 +36,11 @@ function callback() {
         .then(json => {
             console.log("json: ", json)
             var output_text = json[0].translation;
-            
+
+            // Distinguish a real translation from a server limit/error message
+            var blocked = /translating quite fast|translation limit|daily capacity|bit long for the translator|hit an error/i.test(output_text);
+            track(blocked ? 'translate_blocked' : 'translate', { input_chars: inputLen });
+
             output_translate.innerText = output_text.trim(); // For some reason the response comes back with leading \n's
 
             // Hide spinner
@@ -37,6 +49,7 @@ function callback() {
             translate.style.display = 'block';
 
         }).catch(function errorhandler(error) {
+            track('translate_error', {});
             // Hide spinner
             loading.style.display = 'none';
             // Show translate button

@@ -133,4 +133,29 @@ def post():
     else:
         return jsonify(_translate(""), 400)
 
+
+@app.route("/stats")
+def stats():
+    """Backend-truth usage counters (no PII; IPs are counted, not exposed)."""
+    now = time.time()
+    with _lock:
+        active_ips = sum(1 for dq in _ip_hits.values() if dq and now - dq[-1] <= 86400)
+        calls_24h = sum(len(dq) for dq in _ip_hits.values())
+        body = {
+            "global_calls_today": _global["count"],
+            "global_day_utc": _global["day"],
+            "active_ips_24h": active_ips,
+            "calls_24h": calls_24h,
+            "limits": {
+                "rate_per_min": RATE_PER_MIN,
+                "rate_per_day": RATE_PER_DAY,
+                "global_daily_cap": GLOBAL_DAILY_CAP,
+                "max_input_chars": MAX_INPUT_CHARS,
+            },
+            "note": "in-memory; resets on dyno restart",
+        }
+    resp = jsonify(body)
+    resp.headers.add("Access-Control-Allow-Origin", "*")
+    return resp
+
 # app.run(host="127.0.0.1", port=5001, debug=True) # uncomment to run locally #runningLocally #ref
