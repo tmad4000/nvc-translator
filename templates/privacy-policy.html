@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MD6L3WYG0S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MD6L3WYG0S');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <title>Privacy Policy</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon-16x16.png">
+    <link rel="manifest" href="../static/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
+
+    <script>
+        // On page load or when toggling the theme
+        var currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    </script>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="NVC Translator">
+    <meta property="og:description" content="Translate any text to NVC">
+    <meta property="og:image" content="{{ url_for('static', filename='nvc.gif') }}">
+    <meta property="og:image:type" content="image/gif" />
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NVC Translator">
+    <meta name="twitter:description" content="Translate any text to NVC">
+    <meta name="twitter:image" content="{{ url_for('static', filename='nvc.gif') }}">
+
+    <!-- Slack Suggestion -->
+    <meta name="slack-app-id" content="A06EVKFPSH5">
+</head>
+
+<body>
+    <!------------------------------- nav ------------------------------->
+    <header class="nav-wrapper">
+        <nav class="navigation">
+            <div class="nav-brand">
+                <span class="brand-container">
+                    <img src="{{ url_for('static', filename='giraffe_small.png') }}" alt="logo">
+                    <!-- <img class="brand-img" src="../static/giraffe_small.png"> -->
+                    NVC
+                </span>
+                <div class="mobile-menu">
+                    <span class="theme-icon" id="toggleknop" onclick="changeTheme()">
+                        <i class="fas fa-moon" id="zon"></i>
+                    </span>
+                    <span class="menu-icon" id="menu-icon" onclick="handleNavMenu()">
+                        <i class="fas fa-angle-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="navbar-right">
+                <a class="link" href="/">Home</a>
+                <a class="link" target="_blank" href="https://twitter.com/nvctranslator">Gallery</a>
+                <a class="link" target="_blank" href="https://github.com/ethanlolomg/nvc-api">GitHub</a>
+                <a class="link" target="_blank"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform">
+                    iOS Keyboard*
+                </a>
+                <span class="theme-icon" id="toggleknop" onclick="changeTheme()">
+                    <i class="fas fa-moon" id="zon"></i>
+                </span>
+            </div>
+        </nav>
+    </header>
+    <main class="wrapper">
+        <div class="privacy-container">
+            <h1 class="privacy-heading">NVC Translator Privacy Policy</h1>
+            <p class="effective-date">Effective Date: <span>12 December 2023</span> </p>
+            <h3 class="privacy-subheading">1. Commitment to Data Privacy</h3>
+            <h4 class="privacy-subheading-small">1.1 Absolute Anonymity in Usage</h4>
+            <p class="privacy-para">At NVC Translator, we champion the principle of absolute anonymity. Our platform is
+                designed to
+                ensure that your journey in learning and applying NVC does not necessitate the surrender of personal
+                information. You are free to navigate and utilize our translation tools without the burden of
+                registration or disclosure of personal details.</p>
+            <h4 class="privacy-subheading-small">1.2 Zero Personal Data Collection</h4>
+            <p class="privacy-para">Embracing a minimalist approach, our website operates without collecting, storing,
+                or processing personal data. This ethos provides you with the peace of mind that your privacy remains
+                intact, untouched by the digital footprint often left on other platforms.</p>
+            <h3 class="privacy-subheading">2. Data Security Assurance</h3>
+            <p class="privacy-para">Since our platform operates without gathering personal data, the common concerns
+                over data breaches, information misuse, or loss are inherently nullified. We uphold this
+                zero-data-collection policy as a cornerstone of your security and trust in our services.</p>
+            <h3 class="privacy-subheading">3. Use of Cookies and Similar Technologies</h3>
+            <h4 class="privacy-subheading-small">3.1 Enhancing Your Experience</h4>
+            <p class="privacy-para">To optimize functionality and user experience, our website may employ cookies or
+                similar technologies. These are utilized purely for operational effectiveness, such as remembering your
+                language preferences or maintaining session continuity. Importantly, these tools do not intrude on your
+                privacy by tracking personal information.</p>
+            <h3 class="privacy-subheading">4. Navigating External Links</h3>
+            <h4 class="privacy-subheading-small">4.1 Beyond Our Digital Borders</h4>
+            <p class="privacy-para">As you explore the resources we provide, you may encounter links to external sites.
+                While these are offered for your enrichment, it's important to recognize that they are outside our
+                domain of control and privacy protection. We encourage vigilance and discretion when navigating to these
+                external platforms.</p>
+            <h3 class="privacy-subheading">5. Adaptive Policy Framework</h3>
+            <h4 class="privacy-subheading-small">5.1 Evolving with Your Needs</h4>
+            <p class="privacy-para">The digital landscape is ever-changing, and so are the needs and expectations of our
+                users. To this end, we reserve the right to modify our privacy policy, adapting to new challenges and
+                opportunities. All updates will be promptly reflected on this page, and we encourage you to revisit it
+                periodically to stay informed.</p>
+            <h3 class="privacy-subheading">6. Open Channels of Communication</h3>
+            <h4 class="privacy-subheading-small">6.1 Your Voice Matters</h4>
+            <p class="privacy-para">We welcome your inquiries, feedback, and any concerns regarding our privacy
+                practices. Please feel free to reach out to us at <a
+                    href="mailto:translatornvc@gmail.com">translatornvc@gmail.com</a>. Your insights are
+                invaluable in our journey towards continuous improvement.</p>
+            <p class="privacy-para">Thank you for choosing NVC Translator as your partner in exploring and
+                embracing Non-Violent Communication. Your trust in our service is not just appreciated; it is our
+                primary motivator.</p>
+        </div>
+    </main>
+
+    <!---------------------------- footer ---------------------------->
+
+    <footer class="footer">
+        <div class="footer-header">Connect with us on <a href="https://twitter.com/nvctranslator" class="link"
+                style="text-decoration:underline;" target="_blank">Twitter</a>
+        </div>
+        <div class="social-links ">
+            <a class="link" target="_blank" href="https://twitter.com/jacobCole4000">
+                Jacob Cole
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/oliviali_">
+                • Olivia Li
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/tanzealous">
+                • Tanzeela Khan
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/ethanchangzrl">
+                • Ethan Chang
+            </a>
+        </div>
+        <a class="link" target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform?usp=sf_link">
+            <u>Interested in our iPhone keyboard and Chrome extension?</u>
+        </a>
+    </footer>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <!-- <script src="../static/app.js"></script> -->
+</body>
+
+</html>

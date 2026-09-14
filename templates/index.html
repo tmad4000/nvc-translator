@@ -5,108 +5,208 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MD6L3WYG0S"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'G-MD6L3WYG0S');
+        gtag('config', 'G-MD6L3WYG0S');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <title>NVC Translator</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="../static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon-16x16.png">
-    <link rel="manifest" href="../static/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{url_for('static', filename='site.webmanifest') }}">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
+    <script>
+        // On page load or when toggling the theme
+        var currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    </script>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="NVC Translator">
+    <meta property="og:description" content="Translate any text to NVC">
+    <meta property="og:image" content="{{ url_for('static', filename='nvc.gif') }}">
+    <meta property="og:image:type" content="image/gif" />
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NVC Translator">
+    <meta name="twitter:description" content="Translate any text to NVC">
+    <meta name="twitter:image" content="{{ url_for('static', filename='nvc.gif') }}">
+
+    <!-- Slack Suggestion -->
+    <meta name="slack-app-id" content="A06EVKFPSH5">
+
+    <script>
+        // Pass Python variables to JavaScript
+        var config = {
+            src: "{{ src }}"
+        }
+        // Now you can use secretKey and baseUrl in your JavaScript code
+    </script>
 </head>
 
 <body>
-    <!-- nav -->
-
-    <nav class="navigation container">
-        <div class="nav-brand">NVC Translator  –         
-            <span style="font-size: .8em;font-style: italic;">Translate any text to NVC, Marshall Rosenberg's 
-                
-                <a style="color: inherit;" target="_blank" href="https://www.youtube.com/watch?app=desktop&v=Xov5z_GJ9Zs">Nonviolent Communication</a> 
-                (<a style="color: inherit;" target="_blank" href="https://www.amazon.com/Nonviolent-Communication-Language-Life-Changing-Relationships/dp/189200528X">more</a>)
+    <!------------------------------- nav ------------------------------->
+    <header class="nav-wrapper">
+        <nav class="navigation">
+            <div class="nav-brand">
+                <span class="brand-container">
+                    <img src="{{ url_for('static', filename='giraffe_small.png') }}" alt="logo">
+                    <!-- <img class="brand-img" src="../static/giraffe_small.png"> -->
+                    NVC
                 </span>
-    </div>
-        <ul class="list-non-bullet nav-pills">
-            <li class="list-item-inline">
-                <a class="link link-active"  href="/">home</a>
-            </li>
-            <li class="list-item-inline">
-                <a class="link" target="_blank" href="https://twitter.com/nvctranslator">gallery</a>
-            </li>
-            <li class="list-item-inline">
-                <a class="link" target="_blank" href="https://github.com/ethanlolomg/nvc-api">github</a>
-            </li>
-            <li class="list-item-inline">
-                <a class="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform">iOS Keyboard*</a>
-            </li>
-            <li class="list-item-inline">
-                <span id="toggleknop" onclick="changeTheme()"><i class="fas fa-moon" id="zon"
-                        style="color:#737eac;"></i></span>
-            </li>
-        </ul>
-    </nav>
+                <div class="mobile-menu">
+                    <span class="theme-icon" id="toggleknop" onclick="changeTheme()">
+                        <i class="fas fa-moon" id="zon"></i>
+                    </span>
+                    <span class="menu-icon" id="menu-icon" onclick="handleNavMenu()">
+                        <i class="fas fa-angle-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="navbar-right">
+                <a class="link link-active" href="/">Home</a>
+                <a class="link" target="_blank" href="https://github.com/ethanlolomg/nvc-api">GitHub</a>
+                <a class="link" target="_blank"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform">
+                    iOS Keyboard*
+                </a>
+                <a class="link" target="_blank"
+                    href="https://chromewebstore.google.com/detail/rose-colored-glasses/lbnlobglbidochpfebaalpainepcjdci">
+                    Chrome Extension
+                </a>
+                <a class="link twitter" target="_blank" href="https://twitter.com/nvctranslator"><i
+                        class="fab fa-brands fa-twitter"></i></a>
+                <span class="theme-icon" id="toggleknop" onclick="changeTheme()">
+                    <i class="fas fa-moon" id="zon"></i>
+                </span>
+            </div>
+        </nav>
+    </header>
 
-    <!-- translator -->
+    <main class="wrapper">
+        <!-------------------------- Hero Section -------------------------->
+        <section class="hero">
+            <div class="hero-left">
+                <h1 data-aos="fade-up" class="hero-heading">NVC <span class="heading-inverted"> Translator</span></h1>
+                <p data-aos="fade-up" data-aos-delay="100" class="hero-para">Nonviolent Communication (NVC) is a
+                    powerful approach. It guides us in expressing
+                    our needs and feelings clearly and
+                    compassionately, while also attentively acknowledging others. It's a pathway to deeper connections
+                    and harmony in relationships.
+                </p>
+                <p data-aos="fade-up" data-aos-delay="200" class="hero-second-para">
+                    Translate any text to NVC, Marshall Rosenberg's
+                    <a href="https://www.youtube.com/watch?app=desktop&v=Xov5z_GJ9Zs" target="_blank">
+                        Nonviolent Communication </a>
+                    <a href="https://www.amazon.com/Nonviolent-Communication-Language-Life-Changing-Relationships/dp/189200528X"
+                        target="_blank">(more)</a>
+                </p>
+                <button onclick="handleTranslateButton()" type="button" data-aos="fade-up" data-aos-delay="300"
+                    data-aos-offset="1" class="hero-button">Translate
+                    Now</button>
+            </div>
+            <div class="hero-right">
+                <img class="hero-img" data-aos="zoom-out" src="{{ url_for('static', filename='giraffe_cropped.webp') }}"
+                    alt="hero-image" />
+                <!-- <img data-aos="zoom-out" src="../static/giraffe_cropped.webp" alt="giraffe" class="hero-img"> -->
+            </div>
+        </section>
+        <!--------------------------- Translate Section --------------------------->
+        <section id="translate-section" class="translate-section">
+            <div class="translate-container">
 
-    <div class="container container-center">
-        <header class="hero">
-            <img class="hero-img" style="padding:0 0px 30px 0px;width:auto; height:281px"  src="{{ url_for('static', filename='giraffe_cropped.png') }}" />
-            <!-- <img class="hero-img" style="padding:0 0px 0 0px;width:230px"  src="{{ url_for('static', filename='giraffe_cropped.png') }}" /> -->
-            <h1 class="hero-heading">NVC <span class="heading-inverted"> Translator</span></h1>
-        </header>
+                <textarea id="input-translate"
+                    placeholder="Enter text you want to translate, e.g. “You never text me and I feel abandoned.”"></textarea>
+                <!-- <textarea id="input-translate" placeholder="Enter a text you've received, or a text you're thinking to send, that you want to translate, e.g. “You never call me and I feel abandoned”"></textarea> -->
 
-        <div class="justify">
-            <textarea id="input-translate" placeholder="Enter text you want to translate, e.g. “You never text me and I feel abandoned.”"></textarea>
-            <!-- <textarea id="input-translate" placeholder="Enter a text you've received, or a text you're thinking to send, that you want to translate, e.g. “You never call me and I feel abandoned”"></textarea> -->
-        </div>
+                <!-- <button class="link link-primary" id="btn-translate">Translate</button> -->
 
-        <!-- <button class="link link-primary" id="btn-translate">Translate</button> -->
+                <!-- <button class="link link-primary" id="btn-translate">Translate</button>
+                <div id="loading" class="spinner" style="display: none;"></div> -->
 
-        <!-- <button class="link link-primary" id="btn-translate">Translate</button>
-        <div id="loading" class="spinner" style="display: none;"></div> -->
+                <div class="spinner-container">
+                    <button class="link link-primary" id="btn-translate" type="button">Translate</button>
+                    <div id="loading" class="spinner" style="display: none;"></div>
+                </div>
 
-        <div class="spinner-container">
-            <button class="link link-primary" id="btn-translate">Translate</button>
-            <div id="loading" class="spinner" style="display: none;"></div>
-        </div>
+                <div id="output-translate" contenteditable="true" >Output of the translation</div>
+                <div id="output-giraffe">
+                    <div class="giraffe-container">
+                        <span class="giraffe-label">Observations:</span>
+                        <div class="giraffe-value" id="output-giraffe-observations"></div>
+                    </div>
+                    <div class="giraffe-container">
+                        <span class="giraffe-label">Feelings:</span>
+                        <div class="giraffe-value" id="output-giraffe-feelings"></div>
+                    </div>
+                    <div class="giraffe-container">
+                        <span class="giraffe-label">Needs:</span>
+                        <div class="giraffe-value" id="output-giraffe-needs"></div>
+                    </div>
+                    <div class="giraffe-container">
+                        <span class="giraffe-label">Requests:</span>
+                        <div class="giraffe-value" id="output-giraffe-requests"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!---------------------------- Video Guide ---------------------------->
+        <section class="video-guide-section">
+            <div class="video-container" >
+                <div style="position: relative; padding-bottom: 64.67065868263472%; height: 0;"><iframe class="loom-video"
+                        src="https://www.loom.com/embed/84e335d0e33f4399a8140f11bf68a316?sid=b3e4264e-0453-4e97-83c0-bf6c24d80145"
+                        frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+            </div>
+        </section>
+    </main>
 
-        <div id="output-translate">Output of the translation</div>
-    </div>
 
-    <!-- footer -->
+    <!---------------------------- footer ---------------------------->
 
     <footer class="footer">
-        <div class="footer-header">Connect with us on <a href="https://twitter.com/nvctranslator" class="link" style="text-decoration:underline;" target="_blank">Twitter</a></div>
-        <ul class="social-links list-non-bullet">
-            <li class="list-item-inline">
-                <a class="link" target="_blank" href="https://twitter.com/jacobCole4000">
-                    Jacob Cole
-                </a>
-                <a class="link" target="_blank" href="https://twitter.com/oliviali_">
-                    • Olivia Li
-                </a>
-                <a class="link" target="_blank" href="https://twitter.com/tanzealous">
-                    • Tanzeela Khan
-                </a>
-                <a class="link" target="_blank" href="https://twitter.com/ethanchangzrl">
-                    • Ethan Chang
-                </a>
-            </li>
-        </ul>
-        <a class="link" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform?usp=sf_link">
+        <div class="footer-header">Connect with us on <a href="https://twitter.com/nvctranslator" class="link"
+                style="text-decoration:underline;" target="_blank">Twitter</a>
+        </div>
+        <div class="social-links ">
+            <a class="link" target="_blank" href="https://twitter.com/jacobCole4000">
+                Jacob Cole
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/oliviali_">
+                • Olivia Li
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/tanzealous">
+                • Tanzeela Khan
+            </a>
+            <a class="link" target="_blank" href="https://twitter.com/ethanchangzrl">
+                • Ethan Chang
+            </a>
+        </div>
+        <a class="link" target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLScF-8Na3dmzAXc4JkWGzi24lmNLDIaKfP1zlHh40wlflHg7wQ/viewform?usp=sf_link">
             <u>Interested in our iPhone keyboard and Chrome extension?</u>
         </a>
     </footer>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            mirror: false,
+            duration: 800
+        });
+    </script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <!-- <script src="../static/app.js"></script> -->
 </body>
 
 </html>
