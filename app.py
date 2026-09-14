@@ -1,5 +1,6 @@
 from flask import Flask, session, request, jsonify, render_template
 import openai
+import json
 import os
 import time
 import threading
@@ -37,8 +38,17 @@ SYSTEM_PROMPT = (
     "'I feel abandoned' (a story/judgment), say 'I feel sad and lonely because my "
     "need for connection isn't met'. Also distinguish observations from judgments, "
     "needs from strategies, and requests from demands. "
-    "Respond with ONLY the rephrased NVC version in warm, natural first-person "
-    "language — no preamble, no labels, no quotation marks."
+    "\n\n"
+    "Respond with ONLY a JSON object with exactly these keys:\n"
+    '  "rephrased_txt": the rephrased NVC version, in warm, natural first-person '
+    "language — no preamble, no labels, no quotation marks.\n"
+    '  "observations": array of strings — the neutral, judgment-free observations.\n'
+    '  "feelings": array of strings — real feelings only, not pseudo-feelings.\n'
+    '  "needs": array of strings — the underlying universal needs, not strategies.\n'
+    '  "requests": array of strings — concrete, doable requests, not demands.\n'
+    "Every one of those four keys must be an array of strings, even when it holds "
+    "a single item or none at all (use [] for none). Keep each entry short — a "
+    "word or a brief phrase, not a sentence."
 )
 
 
@@ -102,8 +112,28 @@ def _translate(message: str):
             ],
             max_tokens=800,
             temperature=0.7,
+            response_format={"type": "json_object"},
         )
-        return {"translation": result["choices"][0]["message"]["content"].strip()}
+        content = result["choices"][0]["message"]["content"].strip()
+        # The frontend JSON.parses this to fill the Observations/Feelings/Needs/
+        # Requests panel. Validate here so a malformed model response degrades to
+        # a readable sentence instead of breaking the page.
+        try:
+            parsed = json.loads(content)
+            if not isinstance(parsed, dict) or not parsed.get("rephrased_txt"):
+                raise ValueError("missing rephrased_txt")
+            for key in ("observations", "feelings", "needs", "requests"):
+                value = parsed.get(key)
+                if not isinstance(value, list):
+                    parsed[key] = [] if value in (None, "") else [str(value)]
+                else:
+                    parsed[key] = [str(v) for v in value]
+            parsed["rephrased_txt"] = str(parsed["rephrased_txt"]).strip()
+            return {"translation": json.dumps(parsed)}
+        except (ValueError, TypeError):
+            traceback.print_exc()
+            # Plain string: app.js falls back to showing it as the translation.
+            return {"translation": content}
     except Exception:
         traceback.print_exc()
         return {"translation": "Sorry — the translator hit an error and couldn't "
@@ -112,7 +142,13 @@ def _translate(message: str):
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    # src drives app.js's endpoint choice: "web" uses a relative /translate URL.
+    return render_template("index.html", src="web")
+
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template("privacy-policy.html", src="web")
 
 
 @app.route("/translate", methods=["GET"])
